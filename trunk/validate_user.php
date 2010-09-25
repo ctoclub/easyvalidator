@@ -3,6 +3,11 @@ $users = array("sd110","wk110","hr110");
 $user = $_REQUEST["u"];
 $is_exsit = false;
 
+if($user == ""){
+	echo "该用户不能为空!";
+	return;
+}
+
 foreach ($users as $u) {
     if($u == $user){
         $is_exsit = true;

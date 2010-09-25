@@ -11,8 +11,8 @@ $(function(){
 	$("[reg],[url]:not([reg])").hover(
 		function(e) {
 			if($(this).attr('tip') != undefined){
-				var top = (e.clientY + yOffset);
-				var left = (e.clientX + xOffset);
+				var top = (e.pageY + yOffset);
+				var left = (e.pageX + xOffset);
 				$('body').append( '<p id="vtip"><img id="vtipArrow" src="images/vtip_arrow.png"/>' + $(this).attr('tip') + '</p>' );
 				$('p#vtip').css("top", top+"px").css("left", left+"px");
 			}
@@ -25,8 +25,8 @@ $(function(){
 	).mousemove(
 		function(e) {
 			if($(this).attr('tip') != undefined){
-				var top = (e.clientY + yOffset);
-				var left = (e.clientX + xOffset);
+				var top = (e.pageY + yOffset);
+				var left = (e.pageX + xOffset);
 				$("p#vtip").css("top", top+"px").css("left", left+"px");
 			}
 		}
@@ -40,7 +40,7 @@ $(function(){
 	
 	$("form").submit(function(){
 		var isSubmit = true;
-		$("[reg],[url]:not([reg])").each(function(){
+		$(this).find("[reg],[url]:not([reg])").each(function(){
 			if($(this).attr("reg") == undefined){
 				if(!ajax_validate($(this),this.tagName)){
 					isSubmit = false;
