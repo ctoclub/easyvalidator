@@ -5,6 +5,15 @@
 <title>表单验证DEMO By wangking</title>
 <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="js/easy_validator.pack.js"></script>
+<script type="text/javascript" src="js/jquery.bgiframe.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("[name='cb']").each(function(){
+		$(this).addClass("input_validation-failed");
+	});
+	
+});
+</script>
 <link  href="css/validate.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -21,7 +30,7 @@ FORM1表单验证
 		用户名 : 
 		</td>
 		<td align="left" style="padding-left: 5px; padding-top: 4px; padding-bottom: 4px; padding-right: 18px;">
-		<input name="flightno" type="text" id="flightno" reg="^\w{2}\d+$" tip="游戏商名称[2个字母简写]+用户ID[数字] 如: sd10059"/>
+		<input name="flightno" type="text" id="flightno" reg="^\w{2}\d+$" tip="游戏商名称[2个字母简写]+用户ID[数字] 如: sd10059游戏商名称[2个字母简写]+用户ID[数字] 如: sd10059游戏商名称[2个字母简写]+用户ID[数字] 如: sd10059游戏商名称[2个字母简写]+用户ID[数字] 如: sd10059游戏商名称[2个字母简写]+用户ID[数字] 如: sd10059"/>
 		</td>
 	</tr>
 	<tr bgcolor="#ffffff">

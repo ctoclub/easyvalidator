@@ -15,6 +15,7 @@ $(function(){
 				var left = (e.pageX + xOffset);
 				$('body').append( '<p id="vtip"><img id="vtipArrow" src="images/vtip_arrow.png"/>' + $(this).attr('tip') + '</p>' );
 				$('p#vtip').css("top", top+"px").css("left", left+"px");
+				$('p#vtip').bgiframe();
 			}
 		},
 		function() {
