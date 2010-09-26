@@ -33,9 +33,9 @@ $(function(){
 		}
 	).blur(function(){
 		if($(this).attr("reg") == undefined){
-			ajax_validate($(this),this.tagName);
+			ajax_validate($(this));
 		}else{
-			validate($(this),this.tagName);
+			validate($(this));
 		}
 	});
 	
@@ -43,38 +43,37 @@ $(function(){
 		var isSubmit = true;
 		$(this).find("[reg],[url]:not([reg])").each(function(){
 			if($(this).attr("reg") == undefined){
-				if(!ajax_validate($(this),this.tagName)){
+				if(!ajax_validate($(this))){
 					isSubmit = false;
 				}
 			}else{
-				if(!validate($(this),this.tagName)){
+				if(!validate($(this))){
 					isSubmit = false;
 				}
 			}
 		});
+		if(typeof(isExtendsValidate) != "undefined"){
+   			if(isSubmit && isExtendsValidate){
+				return extendsValidate();
+			}
+   		}
 		return isSubmit;
 	});
 	
 });
 
-function validate(obj,tagName){
+function validate(obj){
 	var reg = new RegExp(obj.attr("reg"));
 	var objValue = obj.attr("value");
+	
 	if(!reg.test(objValue)){
-		change_error_style(obj,tagName,"add");
-		if(obj.attr("is_tip_null") == "yes"){
-			obj.removeAttr("tip");
-			obj.removeAttr("tip_bak");
-		}else{
-			obj.attr("tip",obj.attr("tip_bak"));
-			obj.removeAttr("tip_bak");
-		}
+		change_error_style(obj,"add");
+		change_tip(obj,null,"remove");
 		return false;
 	}else{
 		if(obj.attr("url") == undefined){
-			obj.attr("tip",obj.attr("tip_bak"));
-			obj.removeAttr("tip_bak");
-			change_error_style(obj,tagName,"remove");
+			change_error_style(obj,"remove");
+			change_tip(obj,null,"remove");
 			return true;
 		}else{
 			return ajax_validate(obj);
@@ -82,10 +81,8 @@ function validate(obj,tagName){
 	}
 }
 
-function ajax_validate(obj,tagName){
-	if(obj.attr("tip") == undefined){
-		obj.attr("is_tip_null","yes");
-	}
+function ajax_validate(obj){
+	
 	var url_str = obj.attr("url");
 	if(url_str.indexOf("?") != -1){
 		url_str = url_str+"&"+obj.attr("name")+"="+obj.attr("value");
@@ -95,7 +92,33 @@ function ajax_validate(obj,tagName){
 	var feed_back = $.ajax({url: url_str,cache: false,async: false}).responseText;
 	feed_back = feed_back.replace(/(^\s*)|(\s*$)/g, "");
 	if(feed_back == 'success'){
-		change_error_style(obj,tagName,"remove");
+		change_error_style(obj,"remove");
+		change_tip(obj,null,"remove");
+		return true;
+	}else{
+		change_error_style(obj,"add");
+		change_tip(obj,feed_back,"add");
+		return false;
+	}
+}
+
+function change_tip(obj,msg,action_type){
+	
+	if(obj.attr("tip") == undefined){//初始化判断TIP是否为空
+		obj.attr("is_tip_null","yes");
+	}
+	if(action_type == "add"){
+		if(obj.attr("is_tip_null") == "yes"){
+			obj.attr("tip",msg);
+		}else{
+			if(msg != null){
+				if(obj.attr("tip_bak") == undefined){
+					obj.attr("tip_bak",obj.attr("tip"));
+					obj.attr("tip",msg);
+				}
+			}
+		}
+	}else{
 		if(obj.attr("is_tip_null") == "yes"){
 			obj.removeAttr("tip");
 			obj.removeAttr("tip_bak");
@@ -103,29 +126,25 @@ function ajax_validate(obj,tagName){
 			obj.attr("tip",obj.attr("tip_bak"));
 			obj.removeAttr("tip_bak");
 		}
-		return true;
-	}else{
-		change_error_style(obj,tagName,"add");
-		if(obj.attr("tip_bak") == undefined){
-			obj.attr("tip_bak",obj.attr("tip"));
-			obj.attr("tip",feed_back);
-		}
-		return false;
 	}
 }
 
-function change_error_style(obj,tagName,action_type){
+function change_error_style(obj,action_type){
 	if(action_type == "add"){
-		if(tagName == "SELECT"){
-			obj.addClass("select_validation-failed");
-		}else{
-			obj.addClass("input_validation-failed");
-		}
+		obj.addClass("input_validation-failed");
 	}else{
-		if(tagName == "SELECT"){
-			obj.removeClass("select_validation-failed");
-		}else{
-			obj.removeClass("input_validation-failed");
-		}
+		obj.removeClass("input_validation-failed");
 	}
 }
+
+$.fn.validate_callback = function(msg,action_type,options){
+	this.each(function(){
+		if(action_type == "failed"){
+			change_error_style($(this),"add");
+			change_tip($(this),msg,"add");
+		}else{
+			change_error_style($(this),"remove");
+			change_tip($(this),null,"remove");
+		}
+	});
+};
