@@ -10,9 +10,9 @@
 var isExtendsValidate = true;	//如果要试用扩展表单验证的话，该属性一定要申明
 function extendsValidate(){	//函数名称，固定写法
 	
+	//密码匹配验证
 	if( $('#pwd1').val() == $('#pwd2').val() ){	//匹配成功
 		$('#pwd2').validate_callback(null,"sucess");	//此次是官方提供的，用来消除以前错误的提示
-		return true;
 	}else{//匹配失败
 		$('#pwd2').validate_callback("密码不匹配","failed");	//此处是官方提供的API，效果则是当匹配不成功，pwd2表单 显示红色标注，并且TIP显示为“密码不匹配”
 		return false;
@@ -20,12 +20,18 @@ function extendsValidate(){	//函数名称，固定写法
 	
 	//如果觉得官方提供的错误提示UI API 过于复杂，完全可以选择自定义，可以试试下面注释掉的代码
 	
-	//if( $('#pwd1').val() == $('#pwd2').val() ){	//匹配成功
-		//return true;
-	//}else{//匹配失败
+	//if( $('#pwd1').val() != $('#pwd2').val() ){	//匹配不成功
 		//alert("密码不匹配");
 		//return false;
 	//}
+	
+	//checkbox 验证，必须选择一个checkbox
+	if($("[name='lover']:checked").length < 1){
+		alert("必须得有一个lover!");
+		return false;
+	}
+	
+	
 }
 
 </script>
@@ -54,6 +60,16 @@ function extendsValidate(){	//函数名称，固定写法
 		</td>
 		<td align="left" style="padding-left: 5px; padding-top: 4px; padding-bottom: 4px; padding-right: 18px;">
 		<input name="u" type="password" id="pwd2" reg="^\w{6,20}$" tip="6-20个字符，请确认两次密码输入相同"/> </td>
+	</tr>
+	<tr bgcolor="#ffffff">
+		<td align="right" bgcolor="#EEEEEE" width="150px" style="padding-left: 5px; padding-top: 4px; padding-bottom: 4px; padding-right: 18px;">
+		LOVERS: 
+		</td>
+		<td align="left" style="padding-left: 5px; padding-top: 4px; padding-bottom: 4px; padding-right: 18px;">
+		<input type="checkbox" name="lover" value="lilly" /> Lilly
+		<input type="checkbox" name="lover" value="Han MeiMei" /> Han MeiMei
+		<input type="checkbox" name="lover" value="Polly" /> Polly
+		</td>
 	</tr>
 	<tr bgcolor="#ffffff">
 	<td colspan="2" align="left" style="padding-left: 5px; padding-top: 4px; padding-bottom: 4px; padding-right: 18px;">
