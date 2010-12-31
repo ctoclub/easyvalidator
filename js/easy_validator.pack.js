@@ -7,8 +7,8 @@ $(function(){
 	var xOffset = -20; // x distance from mouse
     var yOffset = 20; // y distance from mouse  
 	
-	//input tips
-	$("[reg],[url]:not([reg])").hover(
+	//tips
+	$("[tip]").hover(
 		function(e) {
 			if($(this).attr('tip') != undefined){
 				var top = (e.pageY + yOffset);
@@ -31,7 +31,10 @@ $(function(){
 				$("p#vtip").css("top", top+"px").css("left", left+"px");
 			}
 		}
-	).blur(function(){
+	);
+	
+	//input blur
+	$("[reg],[url]:not([reg])").blur(function(){
 		if($(this).attr("reg") == undefined){
 			ajax_validate($(this));
 		}else{
