@@ -1,10 +1,11 @@
 <?php
+header("Content-Type:text/html;charset=GB2312");
 $users = array("sd110","wk110","hr110");
 $user = $_REQUEST["u"];
 $is_exsit = false;
 
 if($user == ""){
-	echo "User name should not be null!";
+	echo "用户名不能为空！";
 	return;
 }
 
@@ -16,7 +17,7 @@ foreach ($users as $u) {
 }
 
 if($is_exsit){
-   echo "This account has already been registed.";
+   echo "改用户名已被注册！";
 }else{
    echo "success";
 }
