@@ -115,8 +115,8 @@ function change_tip(obj,msg,action_type){
 			if(msg != null){
 				if(obj.attr("tip_bak") == undefined){
 					obj.attr("tip_bak",obj.attr("tip"));
-					obj.attr("tip",msg);
 				}
+				obj.attr("tip",msg);
 			}
 		}
 	}else{
