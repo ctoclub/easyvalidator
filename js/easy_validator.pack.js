@@ -7,8 +7,9 @@ $(function(){
 	var xOffset = -20; // x distance from mouse
     var yOffset = 20; // y distance from mouse  
 	
-	//tips
-	$("[tip]").hover(
+	
+	//input action
+	$("[reg],[url]:not([reg]),[tip]").hover(
 		function(e) {
 			if($(this).attr('tip') != undefined){
 				var top = (e.pageY + yOffset);
@@ -31,13 +32,10 @@ $(function(){
 				$("p#vtip").css("top", top+"px").css("left", left+"px");
 			}
 		}
-	);
-	
-	//input blur
-	$("[reg],[url]:not([reg])").blur(function(){
-		if($(this).attr("reg") == undefined){
+	).blur(function(){
+		if($(this).attr("url") != undefined){
 			ajax_validate($(this));
-		}else{
+		}else if($(this).attr("reg") != undefined){
 			validate($(this));
 		}
 	});
