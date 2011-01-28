@@ -4,7 +4,7 @@ $user = $_REQUEST["u"];
 $is_exsit = false;
 
 if($user == ""){
-	echo "该用户不能为空!";
+	echo "User name should not be null!";
 	return;
 }
 
@@ -16,7 +16,7 @@ foreach ($users as $u) {
 }
 
 if($is_exsit){
-   echo "该用户已注册";
+   echo "This account has already been registed.";
 }else{
    echo "success";
 }
